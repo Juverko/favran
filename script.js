@@ -1,7 +1,111 @@
-function start(){
+async function start(){
   slider('.favor-product .slider','.favor-product .next','.favor-product .prev',460);
+  await fetch(`https://favran-client-service-backend.000webhostapp.com/v1/categories`).then(async data=>{
+    let categories = await data.json();
+    categories = categories.response;
+    // console.log(categories);
+    let ul = document.createElement('ul');
+    ul.classList.add('menu');
+    categories.forEach(categ=>{
+      ul.innerHTML+=`<li>
+        <a>${categ.name}</a>
+        <ul>
+          <li><a>${categ.name} =1</a></li>
+          <li><a>${categ.name} =1</a></li>
+          <li><a>${categ.name} =1</a></li>
+        </ul>
+      </li>`;
+    })
+    document.querySelector('.burger').appendChild(ul);
+    document.querySelector(".category-burger").addEventListener("click",async function(e){
+      e.preventDefault();
+      document.querySelector('.burger #close').addEventListener("click",function(ee){
+        ee.preventDefault();
+        document.querySelector('.burger').style.left ="-70%";
+      })
+      document.querySelector('.burger').style.left = 0;
+    })
+  })
+}
+
+
+
+
+async function createBlocks(fetchURL,header,parentBlock){
+  let blocks = document.createElement('div');
+  blocks.classList.add('category-block');
+  blocks.innerHTML = `
+  <div class="category-header">
+    <p>${header}</p>
+  </div>
+  <div class="slider"> 
+    <a href="" class="buttons prev"><</a>
+    <a href="" class="buttons next">></a>
+    <div class="products">
+      
+    </div>
+  </div>
+  
+  `;
+  let res = await fetch(fetchURL).then(async res=>{
+    console.log(res.status);
+    if(res.status!=200){
+      alert("УУУУПС а вот и пиздец!!!");
+      window.location='';
+    }
+    return await res.json()
+  });
+  res.response.forEach(product => {
+    console.log(product);
+    let block = document.createElement("div");
+    block.classList.add('product');
+    block.innerHTML=`
+      
+    `;
+    blocks.children[1].children[2].innerHTML+=`
+      <div class='product'>
+        <div class="discont">35%</div>
+        <img src="${product.image}" alt="">
+        <div class="prod-name">${product.name}</div>
+        <div class="coast">
+          <div class="prod-coast">${product.price}TJS</div>
+          <div class="prod-old-coast">${product.price}TJS</div>
+        </div>
+        <div class="prod-market">Магазин: Корвон</div>
+        <a href="" class="buy">заказать</a>
+      </div>
+      
+    `
+  });
+  
+  parentBlock.appendChild(blocks);
   slider('.footer .slider .products','.footer .next','.footer .prev',220,true);
 }
+
+async function salom(){
+  let res = await fetch(`https://favran-client-service-backend.000webhostapp.com/v1/main`).then(async res=>{
+    return await res.json();
+  })
+  res.response.categories.forEach(banner=>{
+    // console.log(banner);
+    document.querySelector('.categoryList').innerHTML+=`<img data-id="${banner.slug}" data-name="${banner.name}" src="${banner.image}">`;
+  })
+  document.querySelectorAll(".categoryList img").forEach(img=>[
+    img.addEventListener("click",function(){
+      document.querySelector('.content .category').innerHTML = '';
+      let endPoint = 'products';
+      // endPoint = this.getAttribute('data-id');
+      createBlocks(`https://favran-client-service-backend.000webhostapp.com/v1/${endPoint}`,this.getAttribute('data-name'),document.querySelector('.content .category')).then(res=>{
+        slider('.content .category .slider .products','.content .category .next','.content .category .prev',220,true);
+        window.location="#category";
+      })
+    })
+  ])
+}
+
+salom();
+
+createBlocks(`https://favran-client-service-backend.000webhostapp.com/v1/products`,'Топ продукты',document.querySelector('.footer'));
 
 function slider(slider,next,prev,sliderSch,bool){
   let slCh = 0;

@@ -7,6 +7,65 @@
 body{
   background:#F5F5F6;
 }
+.burger{
+  width:70%;
+  height:100vh;
+  background:rgba(255,255,255,1);
+  position:fixed;
+  z-index:120;
+  left:-70%;
+  transition:.8s;
+}
+.burger:hover{
+  left:0%;
+}
+.burger #close{
+  display: block;
+  color:#fff;
+  background:#E31235;
+  width:30px;
+  height:30px;
+  text-align:center;
+  line-height:30px;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin:5px;
+  position: absolute;
+  right:0;
+  border-radius:3px;
+  transition:.3s;
+}
+.burger #close:hover{
+  background:#333;
+}
+.burger ul{
+  list-style: none;
+}
+
+.menu li a{
+  display: block;
+  width:200px;
+  padding:10px;
+  margin:1px;
+  cursor:pointer;
+}
+.menu li{
+  position: relative;
+  width:200px;
+}
+.menu li ul{
+  position: absolute;
+  top:0;
+  left:200px;
+  display: none;
+}
+.menu li:hover a{
+  font-weight: bold;
+}
+.menu li:hover>ul{
+  display: block;
+}
+
 .header{
   display: flex;
   padding:20px;
@@ -25,7 +84,7 @@ body{
   color:#E31235;
   margin:0 30px;
 }
-.header .category{
+.header .category-burger{
   display: block;
   width:140px;
   text-align:center;
@@ -258,9 +317,26 @@ body{
   margin-top:20px;
   background:#fff;
 }
-.footer .slider{
+.footer .slider,
+.content .slider{
   overflow: hidden;
 }
-.footer .slider .products{
+.footer .slider .products,
+.content .slider .products{
   transition:2s;
+}
+.categoryList img{
+  width:80%;
+  display: block;
+  margin:10px auto;
+  box-shadow: 0 3px 3px rgba(0,0,0,.5);
+  border-radius:20px;
+  cursor: pointer;
+  transition:.5s;
+}
+.categoryList img:hover{
+  width:85%;
+}
+.categoryList img:active{
+  width:80%;
 }
