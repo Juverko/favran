@@ -8,20 +8,47 @@ async function start(){
     ul.classList.add('menu');
     categories.forEach(categ=>{
       ul.innerHTML+=`<li>
-        <a>${categ.name}</a>
-        <ul>
-          <li><a>${categ.name} =1</a></li>
-          <li><a>${categ.name} =1</a></li>
-          <li><a>${categ.name} =1</a></li>
-        </ul>
+        <a data-id="${categ.slug}">${categ.name}</a>
       </li>`;
     })
     document.querySelector('.burger').appendChild(ul);
+    let moreCategory = document.createElement("div");
+    moreCategory.classList.add("more-category");
+    ul.childNodes.forEach(a=>{
+      a = a.children[0];
+      a.addEventListener("mouseover",function(){
+        let ul = document.createElement("ul");
+        console.log(this);
+        categories.forEach(categ=>{
+          if(categ.slug==this.getAttribute("data-id")){
+            ul.innerHTML+=`
+            <li>
+              <a data-id="${categ.slug}">${categ.name}1</a>
+              <a data-id="${categ.slug}">${categ.name}1</a>
+              <a data-id="${categ.slug}">${categ.name}1</a>
+            </li>
+            <li>
+              <a>${categ.name}2</a>
+              <a>${categ.name}2</a>
+            </li>
+            <li><a>${categ.name}3</a></li>
+            <li>
+              <a>${categ.name}4</a>
+              <a>${categ.name}4</a>
+              <a>${categ.name}4</a>
+            </li>`;
+          }
+        })
+        moreCategory.innerHTML='';
+        moreCategory.appendChild(ul);
+      })
+    })
+    document.querySelector('.burger').appendChild(moreCategory);
     document.querySelector(".category-burger").addEventListener("click",async function(e){
       e.preventDefault();
       document.querySelector('.burger #close').addEventListener("click",function(ee){
         ee.preventDefault();
-        document.querySelector('.burger').style.left ="-70%";
+        document.querySelector('.burger').style.left ="-100%";
       })
       document.querySelector('.burger').style.left = 0;
     })

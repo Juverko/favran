@@ -5,15 +5,16 @@
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 body{
-  background:#F5F5F6;
+  background:#F5F5F6; 
 }
 .burger{
-  width:70%;
-  height:100vh;
+  display: flex;
+  width:100%;
   background:rgba(255,255,255,1);
-  position:fixed;
+  position:absolute;
   z-index:120;
-  left:-70%;
+  left:-100%;
+  top:90px;
   transition:.8s;
 }
 .burger:hover{
@@ -38,29 +39,54 @@ body{
 .burger #close:hover{
   background:#333;
 }
+.menu{ 
+}
+.more-category{
+  width:100%;
+  height:inherit;
+  padding:20px 50px;
+}
+.more-category>ul{
+  display: flex;
+  flex-wrap: wrap;
+}
+.more-category>ul li{
+  margin: 1px;
+}
+.more-category>ul li a{
+  display: block;
+  /* width:200px; */
+  padding:10px;
+}
+.more-category>ul li a:first-child{
+  font-weight:500;
+}
 .burger ul{
   list-style: none;
 }
 
 .menu li a{
   display: block;
-  width:200px;
-  padding:10px;
-  margin:1px;
+  width:250px;
+  padding:20px;
   cursor:pointer;
+  background:#F5F5F6;
+  font-weight:500;
 }
 .menu li{
   position: relative;
-  width:200px;
+  width:250px;
 }
 .menu li ul{
   position: absolute;
   top:0;
-  left:200px;
+  left:250px;
   display: none;
 }
 .menu li:hover a{
   font-weight: bold;
+  background:#fff;
+  border-right:3px solid #E31235;
 }
 .menu li:hover>ul{
   display: block;
@@ -246,7 +272,7 @@ body{
 .content{
   background:#fff;
   padding:30px;
-}
+} 
 .category-header p,
 .chose-product-category{
   /* background:red; */
