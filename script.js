@@ -1,5 +1,5 @@
 async function start(){
-  slider('.favor-product .slider','.favor-product .next','.favor-product .prev',460);
+  // slider('.favor-product .slider','.favor-product .next','.favor-product .prev',460);
   await fetch(`https://favran-client-service-backend.000webhostapp.com/v1/categories`).then(async data=>{
     let categories = await data.json();
     categories = categories.response;
@@ -110,29 +110,80 @@ async function createBlocks(fetchURL,header,parentBlock){
 }
 
 async function salom(){
-  let res = await fetch(`https://favran-client-service-backend.000webhostapp.com/v1/main`).then(async res=>{
+  let res = await fetch(`https://favran-client-service-backend.000webhostapp.com/v1/categories`).then(async res=>{
     return await res.json();
   })
-  res.response.categories.forEach(banner=>{
+  console.log(res);
+  res.response.forEach(banner=>{
     // console.log(banner);
-    document.querySelector('.categoryList').innerHTML+=`<img data-id="${banner.slug}" data-name="${banner.name}" src="${banner.image}">`;
+    document.querySelector('.categoryList').innerHTML+=`<div>
+      <img data-close='1' data-id="${banner.slug}" data-name="${banner.name}" src="${banner.image}">
+      <div class="category" id="category">
+    </div>
+      </div>`;
   })
   document.querySelectorAll(".categoryList img").forEach(img=>[
     img.addEventListener("click",function(){
       document.querySelector('.content .category').innerHTML = '';
       let endPoint = 'products';
       // endPoint = this.getAttribute('data-id');
-      createBlocks(`https://favran-client-service-backend.000webhostapp.com/v1/${endPoint}`,this.getAttribute('data-name'),document.querySelector('.content .category')).then(res=>{
+      console.log(this.parentElement.children[1]);
+      this.setAttribute('data-close',Number(this.getAttribute('data-close'))+1);
+      if(Number(this.getAttribute('data-close'))%2==0){
+        createBlocks(`https://favran-client-service-backend.000webhostapp.com/v1/${endPoint}`,this.getAttribute('data-name'),this.parentElement.children[1]).then(res=>{
         slider('.content .category .slider .products','.content .category .next','.content .category .prev',220,true);
-        window.location="#category";
+        // window.location="#category";
       })
+      }else{
+        this.parentElement.children[1].innerHTML = ``;
+      }
     })
   ])
 }
 
 salom();
 
-createBlocks(`https://favran-client-service-backend.000webhostapp.com/v1/products`,'Топ продукты',document.querySelector('.footer'));
+async function addBannerTop(){
+  await fetch(`https://favran-client-service-backend.000webhostapp.com/v1/banners`).then(async res=>{
+    let banner = await res.json();
+    banner = banner.response.image;
+    document.querySelector('.reklama img').src = banner;
+  });
+}
+addBannerTop();
+
+async function superSale(){
+  await fetch(`https://favran-client-service-backend.000webhostapp.com/v1/superSale`).then(async data=>{
+    let products = await data.json();
+    products = products.response;
+    console.log(products);
+    let sliderBlock = document.querySelector('.favor-product .slider');
+    products.forEach(product=>{
+      console.log(product);
+      sliderBlock.innerHTML += `
+      <div class="product">
+      <img src="img/30065649b.webp" alt="">
+      <div class="product-info">
+        <div class="discont">
+          <p>Скидка</p>
+          <p>${Math.round(product.discount*100/product.final_price)}%</p>
+        </div>
+        <div class="coast">
+          <div class="prod-coast">${product.final_price}TJS</div>
+          <div class="prod-old-coast">${product.final_price-product.discount}TJS</div>
+        </div>
+        <div class="prod-name">${product.brand} ${product.name}</div>
+        <div class="prod-market">Магазин: Корвон</div>
+        <a href="" class="buy">заказать</a>
+      </div>
+    `;
+    })
+    slider('.favor-product .slider','.favor-product .next','.favor-product .prev',460);
+  })
+}
+superSale();
+
+createBlocks(`https://favran-client-service-backend.000webhostapp.com/v1/randomCategory`,'Топ продукты',document.querySelector('.footer'));
 
 function slider(slider,next,prev,sliderSch,bool){
   let slCh = 0;
