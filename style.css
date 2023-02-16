@@ -56,16 +56,25 @@ body{
 .more-category>ul li a{
   display: block;
   /* width:200px; */
-  padding:10px;
+  color:#333;
+  text-decoration: none;
+  padding:6px;
+}
+.more-category>ul li a:hover{
+  color:#E31235;
+  font-weight: bold;
 }
 .more-category>ul li a:first-child{
   font-weight:500;
+  margin-top:20px;
 }
 .burger ul{
   list-style: none;
 }
 
 .menu li a{
+  text-decoration: none;
+  color:#333;
   display: block;
   width:250px;
   padding:20px;

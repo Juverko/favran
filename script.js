@@ -6,9 +6,10 @@ async function start(){
     // console.log(categories);
     let ul = document.createElement('ul');
     ul.classList.add('menu');
+    console.log(categories);
     categories.forEach(categ=>{
       ul.innerHTML+=`<li>
-        <a data-id="${categ.slug}">${categ.name}</a>
+        <a href="" data-id="${categ.slug}">${categ.name}</a>
       </li>`;
     })
     document.querySelector('.burger').appendChild(ul);
@@ -18,25 +19,38 @@ async function start(){
       a = a.children[0];
       a.addEventListener("mouseover",function(){
         let ul = document.createElement("ul");
-        console.log(this);
+        // console.log(this);
         categories.forEach(categ=>{
           if(categ.slug==this.getAttribute("data-id")){
-            ul.innerHTML+=`
-            <li>
-              <a data-id="${categ.slug}">${categ.name}1</a>
-              <a data-id="${categ.slug}">${categ.name}1</a>
-              <a data-id="${categ.slug}">${categ.name}1</a>
-            </li>
-            <li>
-              <a>${categ.name}2</a>
-              <a>${categ.name}2</a>
-            </li>
-            <li><a>${categ.name}3</a></li>
-            <li>
-              <a>${categ.name}4</a>
-              <a>${categ.name}4</a>
-              <a>${categ.name}4</a>
-            </li>`;
+            categ.children.forEach(cat1=>{
+              let li2 = ``;
+              // console.log(cat1);
+              cat1.children_recursive.forEach(cat2=>{
+                li2+=`<a href="" data-id="${cat2.slug}">${cat2.name}</a>`;
+              })
+              
+              ul.innerHTML+=`
+              <li>
+                <a href="" data-id="${cat1.slug}">${cat1.name}</a>
+                ${li2}
+              </li>`;
+            })
+            // ul.innerHTML+=`
+            // <li>
+            //   <a data-id="${categ.slug}">${categ.name}1</a>
+            //   <a data-id="${categ.slug}">${categ.name}1</a>
+            //   <a data-id="${categ.slug}">${categ.name}1</a>
+            // </li>
+            // <li>
+            //   <a>${categ.name}2</a>
+            //   <a>${categ.name}2</a>
+            // </li>
+            // <li><a>${categ.name}3</a></li>
+            // <li>
+            //   <a>${categ.name}4</a>
+            //   <a>${categ.name}4</a>
+            //   <a>${categ.name}4</a>
+            // </li>`;
           }
         })
         moreCategory.innerHTML='';
@@ -83,7 +97,7 @@ async function createBlocks(fetchURL,header,parentBlock){
     return await res.json()
   });
   res.response.forEach(product => {
-    console.log(product);
+    // console.log(product);
     let block = document.createElement("div");
     block.classList.add('product');
     block.innerHTML=`
@@ -98,7 +112,7 @@ async function createBlocks(fetchURL,header,parentBlock){
           <div class="prod-coast">${product.price}TJS</div>
           <div class="prod-old-coast">${product.price}TJS</div>
         </div>
-        <div class="prod-market">Магазин: Корвон</div>
+        <div class="prod-market">Магазин: ${product.shop}</div>
         <a href="" class="buy">заказать</a>
       </div>
       
@@ -173,7 +187,7 @@ async function superSale(){
           <div class="prod-old-coast">${product.final_price-product.discount}TJS</div>
         </div>
         <div class="prod-name">${product.brand} ${product.name}</div>
-        <div class="prod-market">Магазин: Корвон</div>
+        <div class="prod-market">Магазин:${product.shop}</div>
         <a href="" class="buy">заказать</a>
       </div>
     `;
