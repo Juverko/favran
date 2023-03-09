@@ -1,0 +1,37 @@
+.content{
+
+}
+
+.product-info{
+    display: flex;
+    justify-content:space-between;
+}
+.product-info>div{
+    /* background:red; */
+    margin:1px;
+}
+.prod-image{
+    width:300px;
+    margin:20px;
+}
+.primary-image{
+    display: block;
+    width:99%;
+    margin:0 auto;
+}
+.other-images{
+    width:300px;
+    display: flex;
+    justify-content:center;
+}
+.other-images img{
+    width:24%;
+    margin:.5%;
+}
+.prod-about .row{
+    display: flex;
+    justify-content: space-between;
+}
+.discription{
+    width:50%;
+}
