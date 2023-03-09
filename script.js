@@ -155,7 +155,7 @@ async function salom(){
   ])
 }
 
-salom();
+
 
 async function addBannerTop(){
   await fetch(`https://favran-client-service-backend.000webhostapp.com/v1/banners`).then(async res=>{
@@ -164,7 +164,7 @@ async function addBannerTop(){
     document.querySelector('.reklama img').src = banner;
   });
 }
-addBannerTop();
+
 
 async function superSale(){
   await fetch(`https://favran-client-service-backend.000webhostapp.com/v1/superSale`).then(async data=>{
@@ -195,7 +195,7 @@ async function superSale(){
     slider('.favor-product .slider','.favor-product .next','.favor-product .prev',460);
   })
 }
-superSale();
+
 
 createBlocks(`https://favran-client-service-backend.000webhostapp.com/v1/randomCategory`,'Топ продукты',document.querySelector('.footer'));
 
@@ -248,6 +248,12 @@ function slider(slider,next,prev,sliderSch,bool){
 
   
 }
-start();
 
+async function getStatrted(){
+  await addBannerTop();
+  await superSale();
+  await salom();
+  await start();
+}
+getStatrted();
 
