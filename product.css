@@ -2,13 +2,16 @@
 
 }
 
-.product-info{
+.product-information{
     display: flex;
     justify-content:space-between;
 }
-.product-info>div{
+.product-information>div{
     /* background:red; */
     margin:1px;
+}
+.prod-name{
+    margin-left:30px;
 }
 .prod-image{
     width:300px;
@@ -34,4 +37,21 @@
 }
 .discription{
     width:50%;
+}
+.character{
+    margin-left:30px;
+    margin-top:20px;
+}
+.character>p{
+    font-size:1em;
+    font-weight: bold;
+}
+
+.character div p{
+    margin-bottom: 5px;
+    color:#777;
+}
+.character div p span:last-child{
+    color:#323232;
+    font-weight:400;
 }
